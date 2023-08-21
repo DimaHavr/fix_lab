@@ -21,8 +21,8 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
-          heroku_app_name: "YOUR_PYTHON_APP_NAME" #The name of your heroku app - Must be unique in Heroku
-          heroku_email: "YOUR_HEROKU_ADDRESS" #Your heroku yuser name
+          heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
+          heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
 
   strapi-build:
     # needs: python-build
@@ -37,8 +37,8 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
-          heroku_app_name: "YOUR_ANGULAR_APP_NAME" #The name of your heroku app - Must be unique in Heroku
-          heroku_email: "YOUR_ANGULAR_ADDRESS" #Your heroku yuser name
+          heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
+          heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
 
 # setup:
 #   addons:
