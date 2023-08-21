@@ -16,7 +16,7 @@ jobs:
       - name: Rename the heroku_client.yml
         run: |
           ls
-          mv heroku_client.yml heroku.yml
+          mv client/heroku_client.yml heroku.yml
           ls
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
@@ -32,7 +32,7 @@ jobs:
       - name: Rename the heroku_strapi.yml
         run: |
           ls -a
-          mv heroku_strapi.yml heroku.yml
+          mv strapi/heroku_strapi.yml heroku.yml
           ls -a
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
