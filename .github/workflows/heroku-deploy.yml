@@ -13,13 +13,14 @@ jobs:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      # - name: Build client Docker image
-      #   run: |
-      #     cd client
-      #     docker build -t client .
+      - name: Build client Docker image
+        run: |
+          cd client
+          docker build -t client .
       - name: "Deploy the web dyno"
         uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
+          usedocker: true
           docker_heroku_process_type: web
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }} #The Heroku api key we stored on our repo secret
           heroku_app_name: fix-lab #The name of your heroku app - Must be unique in Heroku
@@ -30,10 +31,10 @@ jobs:
         run: heroku container:login
 
       - name: "Build and push to heroku registry"
-        run: heroku container:push web --app fix-lab
+        run: heroku container:push client --app fix-lab
 
       - name: "Releases the container"
-        run: heroku container:release web --app fix-lab
+        run: heroku container:release client --app fix-lab
 
   strapi-build:
     runs-on: ubuntu-latest # Setup an environment to run the action
