@@ -13,9 +13,10 @@ jobs:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku-client.yml
+      - name: Build client Docker image
         run: |
-          mv heroku-client.yml heroku.yml
+          cd /client
+          docker build -t client .
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
@@ -27,9 +28,10 @@ jobs:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku-strapi.yml
+      - name: Build Strapi Docker image
         run: |
-          mv heroku-strapi.yml heroku.yml
+          cd /strapi
+          docker build -t strapi .
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
