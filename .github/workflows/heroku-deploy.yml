@@ -9,33 +9,39 @@ on:
       - development
 
 jobs:
-  client-build:
+  deploy:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
-      - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku-client.yml
-        run: |
-          mv heroku-client.yml heroku.yml
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
-          heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
-          heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
-          usedocker: true
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  strapi-build:
-    runs-on: ubuntu-latest # Setup an environment to run the action
-    steps:
-      - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku-strapi.yml
-        run: |
-          mv heroku-strapi.yml heroku.yml
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
+      - name: Login to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
-          heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
-          heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
-          usedocker: true
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: fix-lab
+
+      - name: Build and Deploy
+        run: |
+          docker-compose build
+          docker-compose push
+          heroku container:push web --app fix-lab
+          heroku container:release web --app fix-lab
+
+  # strapi-build:
+  #   runs-on: ubuntu-latest # Setup an environment to run the action
+  #   steps:
+  #     - uses: actions/checkout@v2 # This actions copy the repository on the environment
+  #     - name: Rename the heroku-strapi.yml
+  #       run: |
+  #         mv heroku-strapi.yml heroku.yml
+  #     - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
+  #       with:
+  #         heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
+  #         heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
+  #         heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
+  #         usedocker: true
+
 # setup:
 #   addons:
 #     - plan: heroku-postgresql
