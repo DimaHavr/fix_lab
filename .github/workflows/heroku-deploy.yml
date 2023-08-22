@@ -13,33 +13,24 @@ jobs:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku_client.yml
-        run: |
-          ls
-          mv client/heroku-client.yml heroku.yml
-          ls
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
           heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
           heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
+          usedocker: true
 
   strapi-build:
     # needs: python-build
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku_strapi.yml
-        run: |
-          ls -a
-          mv strapi/heroku-strapi.yml heroku.yml
-          ls -a
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
           heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
           heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
-
+          usedocker: true
 # setup:
 #   addons:
 #     - plan: heroku-postgresql
