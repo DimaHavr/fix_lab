@@ -3,7 +3,7 @@ FROM node
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-COPY .env.example .env
+COPY .env .
 
 RUN npm install
 

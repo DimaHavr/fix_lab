@@ -6,7 +6,7 @@ services:
     build:
       context: ./strapi
       dockerfile: Dockerfile
-    env_file: ./strapi/.env
+    env_file: ./strapi/.env.example
     environment:
       - DATABASE_CLIENT=postgres
       - DATABASE_HOST=db
