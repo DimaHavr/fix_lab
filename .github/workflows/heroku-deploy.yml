@@ -16,7 +16,7 @@ jobs:
       - name: Build client Docker image
         run: |
           ls
-          cd /client
+          cd client
           ls
           docker build -t client .
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
