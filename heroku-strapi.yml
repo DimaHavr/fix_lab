@@ -1,3 +1,3 @@
 build:
   docker:
-    web: strapi/Dockerfile
+    strapi: strapi/Dockerfile
