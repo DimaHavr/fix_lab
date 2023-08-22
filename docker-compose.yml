@@ -1,68 +1,65 @@
 version: '3.8'
 services:
-  # strapi:
-  #   container_name: strapi
-  #   image: strapi/strapi
-  #   restart: unless-stopped
-  #   environment:
-  #     - DATABASE_CLIENT=postgres
-  #     - DATABASE_HOST=db
-  #     - DATABASE_PORT=5432
-  #     - DATABASE_NAME=strapi
-  #     - DATABASE_USERNAME=strapi
-  #     - DATABASE_PASSWORD=strapi
-  #   ports:
-  #     - 1337:1337
-  #   volumes:
-  #     - ./server:/app/strapi
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - strapi-app-network
-  
-  postgres:
-    image: postgres
+  strapi: 
+    container_name: strapi
+    restart: unless-stopped
+    build:
+      context: ./strapi
+      dockerfile: Dockerfile
+    env_file: ./strapi/.env
+    environment:
+      - DATABASE_CLIENT=postgres
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=strapi
+      - DATABASE_USERNAME=admin
+      - DATABASE_PASSWORD=password
+    ports:
+      - 1337:1337
+    volumes:
+      - ./strapi:/app/strapi
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    container_name: postgres
+    image: postgres:14.1-alpine
     restart: always
     environment:
+      POSTGRES_DB: strapi
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: password
     ports:
       - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql/data
-
-  # pgadmin:
-  #   container_name: container-pgadmin
-  #   image: dpage/pgadmin4
-  #   depends_on:
-  #     - postgres
-  #   ports:
-  #     - "5050:80"
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
-  #     PGADMIN_DEFAULT_PASSWORD: root
-  #   restart: unless-stopped
+    networks:
+      - app-network
 
   client:
-    build: 
+    container_name: client
+    restart: unless-stopped
+    build:
       context: ./client
       dockerfile: Dockerfile
-    container_name: client
-    volumes:
-      - ./client:/app/client
-      - /app/node_modules
     stdin_open: true
     tty: true
     env_file: ./client/.env
     depends_on:
-      - server
+      - strapi
     ports:
       - "3000:3000"
-
-# networks:
-#   strapi-app-network:
-#     driver: bridge
-
-# volumes:
-#   data:
+    volumes:
+      - ./client:/app/client
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+# #Volumes
+volumes:
+  data:
+    driver: local
