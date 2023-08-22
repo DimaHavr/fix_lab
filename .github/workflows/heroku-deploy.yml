@@ -15,19 +15,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2 # This actions copy the repository on the environment
 
-      - name: Login to Heroku
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker-compose
+
+      - name: Build and start containers
+        run: |
+          docker-compose build
+
+      - name: Deploy to stage Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}} #The Heroku api key we stored on our repo secret
           heroku_app_name: "fix-lab" #The name of your heroku app - Must be unique in Heroku
           heroku_email: "dima.komlyk@gmail.com" #Your heroku yuser name
           usedocker: true
-
-      - name: Set up Docker Compose
-        run: docker-compose -f docker-compose.yml build
-
-      - name: Deploy using Docker Compose
-        run: docker-compose -f docker-compose.yml up -d
 # setup:
 #   addons:
 #     - plan: heroku-postgresql
