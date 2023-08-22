@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku_python.yml
+      - name: Rename the heroku-client.yml
         run: |
           mv heroku-client.yml heroku.yml
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest # Setup an environment to run the action
     steps:
       - uses: actions/checkout@v2 # This actions copy the repository on the environment
-      - name: Rename the heroku_python.yml
+      - name: Rename the heroku-strapi.yml
         run: |
           mv heroku-strapi.yml heroku.yml
       - uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys the content on Heroku
