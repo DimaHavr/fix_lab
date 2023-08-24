@@ -29,6 +29,7 @@ jobs:
       - name: "Build&Deploy strapi"
         uses: docker/build-push-action@v2
         with:
+          context: ./strapi
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/prod-strapi:latest
@@ -40,6 +41,7 @@ jobs:
       - name: "Build&Deploy client"
         uses: docker/build-push-action@v2
         with:
+          context: ./client
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/prod-client:latest
