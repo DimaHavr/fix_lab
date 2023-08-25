@@ -58,6 +58,6 @@ jobs:
           script: |
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S chmod +x /usr/local/bin/docker-compose
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S service docker start
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo usermod -aG docker $USER
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod pull
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod up -d
