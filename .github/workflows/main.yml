@@ -56,15 +56,9 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S apt update
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S apt-get install apt-transport-https ca-certificates curl software-properties-common
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add –
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S apt update
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S apt-get install docker-ce
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S systemctl start docker
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S systemctl enable docker
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S sh get-docker.sh
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S curl -fsSL -o /usr/local/bin/docker-compose "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)"
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S chmod +x /usr/local/bin/docker-compose
-            docker-compose -f docker-compose.prod-ci.yml -p prod pull
-            docker-compose -f docker-compose.prod-ci.yml -p prod up -d
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S service docker start
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod pull
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod up -d
