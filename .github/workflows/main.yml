@@ -56,10 +56,10 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo curl -fsSL https://get.docker.com -o get-docker.sh
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo sh get-docker.sh
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo curl -fsSL -o /usr/local/bin/docker-compose "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)"
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo chmod +x /usr/local/bin/docker-compose
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo service docker start
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S curl -fsSL https://get.docker.com -o get-docker.sh
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S sh get-docker.sh
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S curl -fsSL -o /usr/local/bin/docker-compose "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)"
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S chmod +x /usr/local/bin/docker-compose
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S service docker start
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod pull
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod up -d
