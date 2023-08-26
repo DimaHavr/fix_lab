@@ -56,6 +56,10 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose down
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker login ghcr.io --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }}
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose down
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker rm -f $(docker ps -a -q)
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker volume rm $(docker volume ls -q)
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod pull
             echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S docker-compose -f docker-compose.prod-ci.yml -p prod up -d
